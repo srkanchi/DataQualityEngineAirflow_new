@@ -1,0 +1,13 @@
+boto3
+geopy
+jaydebeapi
+matplotlib
+numpy 
+pandas   
+psycopg2
+s3fs
+seaborn 
+scipy
+scikit-learn
+shapely
+shortuuid

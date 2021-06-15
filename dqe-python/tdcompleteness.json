@@ -1,0 +1,72 @@
+{
+    "name": "FD20RAP01DPR",
+    "projectNumbers": [
+    "DEVELOPMENT",
+    "N-4123"
+    ],
+    "keyword": null,
+    "testType": null, 
+    "siteType": null,
+    "plotArea": 45,
+    "experimentalSeason": "Tropic Humid",
+    "GEPLevel": "GEP Level",
+    "guidelines": null,
+    "responsibleSite": null,
+    "technicalManager": null,
+    "locationControl": "Region Asia Pacific",
+    "dataDeadline": null,
+    "numberHarvest": null,
+    "crops": [
+    {
+        "name": "Cucurbita pepo L. var. giromon"
+    }],
+    "targets": [
+    {
+        "name": "Fimbristylis miliacea (L.) VAH"
+    },
+    {
+        "name": "Sphenoclea zeylanica GAERTN."
+    },
+    {
+        "name": "Echinochloa spec."
+    },
+    {
+        "name": "Leptochloa chinensis (L.) NEES"
+    },
+    {
+        "name": "Annual broad-leaved plants"
+    },
+    {
+        "name": "Cyperus spec."
+    }
+    ],
+    "treatments": [
+    {
+        "assessmentMeanValues": [
+        {
+            "partRated": "PLANT",
+            "ratingType": "PHYGEN",
+            "sampleSize": 1,
+            "sampleSizeUnit": "PLOT",
+            "numberOfSubsamples": 1,
+            "target": null,
+            "crop": {
+            "name": "Triticum aest., winter wheat"
+            },
+            "standardEvaluation":null,
+            "assessmentCode":null
+        }
+        ],
+        "applications": [
+        {
+            "products": [
+            {
+                "equipment": {
+                "method": null
+                }
+            }
+            ]
+        }
+        ]
+    }]
+}
