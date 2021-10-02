@@ -1,15 +1,10 @@
-import sys
 from os import path
 import json
 from base64 import b64encode
 import requests
-import asyncio
-import psycopg2
-import sqlanydb
-from config import *
-from base64 import b64encode
 
 
+#tpt_id_key_list = ["HA22ARG7AJPX","FD20RAP01DPR","IA22WLDDDNGX","HR21DEU500SBH1"]
 
 def call_graphql_api(tpt_id_key):
 
@@ -40,40 +35,107 @@ def call_graphql_api(tpt_id_key):
     # defining the api-endpoint  
     API_ENDPOINT = "https://fst-graphql-dev.agro.services/graphql"
     
-    headers = {'Content-type': 'application/json', 'Accept': 'text/plain', 'Authorization': 'Bearer {}'.format(token)}
-    # sending post request and saving response as response object 
+    #headers = {'Content-type': 'application/json', 'Accept': 'text/plain', 'Authorization': 'Bearer {}'.format(token)}
+    headers =  {'Authorization': 'Bearer {}'.format(token)}
+    # sending post request and saving response as response 
+
+
+
+    ## status 0 
+    ## Correct  query
+    query_status_0 = """ {
+		trialDescriptions(filter: [{
+		tdKeys:["%s"]
+		}]
+		){
+		tptIdKey
+		siteType
+		trialResponsibles{
+		siteName
+		internalValue
+		testType
+		hasName
+		plannedNumberOfTrials
+		}
+		plannedNumberOfApplications
+		numberOfReplicates
+		crops{
+		name
+		}
+		targets{
+		name
+		}
+		experimentalSeason
+		keywords
+		projectNumbers
+		}
+		} """ %(tpt_id_key)
     
-    query =  """query{
-        trialDescriptions(filter:[{
-            tdKeys:["HD21RAPC2RFR"]
-        }]){
-        
-            tdKey
-                crops{
-            name
-            }
-            keywords
-            fieldTestingType
-            projectNumbers
-            fieldResponsibles{
-            type
-            }
-            siteType
-            plotArea
-            plannedTotalNumberOfTrials
-            experimentalSeason
-            targets{
-            name
-            }
-            externalField
+
+    #tpt_id_key
+    ## status 1 - will be different
+
+    query_status_1 = """{
+	  trialDescriptions(filter: [{
+		tptIdKey:["%s"]
+	  }]
+	  ){
+      tptIdKey
+      dataDeadline
+      gepCode
+      gepCertification
+      guidelines      
+      keywords
+      plannedNumberOfApplications
+		  plannedNumberOfAssessments			      
+			     
+      controlFieldCode
+      plannedAssessments{
+        partRated
+        sampleSize
+        sampleSizeUnit
+        ratingDataType
+        standardEvaluationId
+        assessmentCode
+        target{
+          name
         }
-        }"""
+        crop{
+          name
+        }
 
+      }
+      
+      treatments{
+        
+        applications{
+          crops{
+            cropStageCode
+          }
+          applicationCode
+          applicationTiming
+          products{
+            equipment{
+              method
+              placement
+            }
+          }
+        }
+      }
+      
+    }  
+	  }""" %(tpt_id_key)
 
+ 
+    ## trial queries
+    ## protocol queries 
+     
 
-    r = requests.post(url = API_ENDPOINT,headers=headers,data=json.dumps({"query":query}))
+    ## check or try catch for correct status 
+
+    r = requests.post(url = API_ENDPOINT,headers=headers,json={"query": query_status_1})
     #print(r.text)
-    return r.text
+    return r.json()
   
 
 
@@ -124,79 +186,27 @@ def call_dqe(data, tpt_id_key):
     
     # sending post request and saving response as response object 
 
-    r = requests.post(url = API_ENDPOINT, data=json.dumps(data), headers=headers) 
-    print(r)
+    res = requests.post(url = API_ENDPOINT, data=json.dumps(data), headers=headers) 
     # extracting response text  
 
-    pastebin_url = r.text 
+    pastebin_url = res.text 
 
-    print("The pastebin URL is:%s"%pastebin_url)
-
-    #return r 
-    rtn = r.text
+    
+    #return r --> res
+    rtn = res.text
+    #print("Return from method dqe",rtn)
     json_rtn = json.loads(rtn)
- 
-    _score = json_rtn[0]['TDCompleteness']['score']
-    return _score, tpt_id_key
-
-
-
-
-def save_to_json(data):
-    pass
-
-def send_email(sender, receiver, html):
-    pass
-
-def summ_for_1_tpt(dqe_response, tpt_id_key, score):
-    # tpt_id_key | quality_score | responsible_name | email
-   
     
-    #postgresConnection = psycopg2.connect(user='fstapcdevteam', host='localhost', port=9003, password='FstApc2021FSTAPC2021', database='scoutdb')
-    con = sqlanydb.connect(uid=USER, pwd=PWD, host='10.205.43.162')
-    cursor = con.cursor()
-
-
-    sql_query = "select distinct top 100 \
-        ft.tpt_id_key \
-        , fr.responsible_name \
-        , fr.email \
-        , mc.decode1 as responsible_type \
-        , u.mail_id \
-        from \
-        field_testing ft \
-        join field_responsible fr on fr.field_testing_id=ft.field_testing_id \
-        join master_code mc on mc.code_id=fr.responsible_type_code_id \
-        join arm_users u on u.responsible=fr.responsible_name \
-        where 1=1 \
-        and mc.decode1 = 'Technical Manager' \
-        and ft.tpt_id_key = '{}' ".format(tpt_id_key)
     
-    cursor.execute(sql_query)
-    output = cursor.fetchall()
-    
-    cursor.close()
-    con.close()
-    print(con)
+    try :
+        json_rtn = json.loads(rtn)
+        #print(json_rtn)
+    except ValueError:  # includes simplejson.decoder.JSONDecodeError
+        print("Decoding JSON has failed")
+
+    _score = json_rtn[0]['TDCompleteness_1']['scores']
+    _version = json_rtn[0]['TDCompleteness_1']['version']
+    return _score,_version ,tpt_id_key,json_rtn
+    #return json_rtn
 
 
-    return {'tpt': tpt_id_key, 'quality_score': score, 'user': output[0][1], 'email': output[0][4]}
-
-
-
-def summarize_per_resonsible(return_list):
-    ##email of tm 
-    pass 
-
-return_list = []
-
-
-
-
-    #return_list.append(rules)
-    # save_to_json(return_list)
-    # iter_email_sender = summarize_per_resonsible(return_list)
-
-
-# for item in iter_email_sender:
-#     send_email(item['sender'], item['receiver'], item['html'])

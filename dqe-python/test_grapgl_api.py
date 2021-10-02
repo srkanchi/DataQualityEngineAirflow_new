@@ -37,33 +37,34 @@ headers = {'Content-type': 'application/json', 'Accept': 'text/plain', 'Authoriz
 # sending post request and saving response as response object 
 
 
-query =  """query{
-    trialDescriptions(filter:[{
-        tdKeys: ["HD21RAPC2RFR"]
-    }]){
-    
-        tdKey
-            crops{
-        name
-        }
-        keywords
-        fieldTestingType
-        projectNumbers
-        fieldResponsibles{
-        type
-        }
-        siteType
-        plotArea
-        plannedTotalNumberOfTrials
-        experimentalSeason
-        targets{
-        name
-        }
-        externalField
-    }
-    }"""
-
+query = """ query{
+trialDescriptions(filter: [{
+tdKeys:["HA22ARG7AJPX"]
+}]
+){
+tptIdKey
+siteType
+trialResponsibles{
+siteName
+internalValue
+testType
+hasName
+plannedNumberOfTrials
+}
+plannedNumberOfApplications
+numberOfReplicates
+crops{
+name
+}
+targets{
+name
+}
+experimentalSeason
+keywords
+projectNumbers
+}
+}"""
 
 
 r = requests.post(url = API_ENDPOINT,headers=headers,data=json.dumps({"query":query}))
-print(r.text)
+print(r)

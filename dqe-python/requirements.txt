@@ -1,13 +1,5 @@
-boto3
-geopy
-jaydebeapi
-matplotlib
-numpy 
-pandas   
+boto3   
 psycopg2
-s3fs
-seaborn 
-scipy
-scikit-learn
-shapely
 shortuuid
+hvac
+pandas 

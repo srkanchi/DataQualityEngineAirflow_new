@@ -1,0 +1,246 @@
+16.09.2021
+-------------------------------------------------------------------------
+COMPLETENESS 
+-------------------------------------------------------------------------
+
+
+TDs status 0: .....................................................................
+
+  query{
+    trialDescriptions(filter: [{
+  tptIdKey:["HA22ARG7AJPX"]
+    }]
+    ){
+           tptIdKey
+           siteType
+           trialResponsibles{
+             siteName
+             internalValue
+             testType
+             hasName
+             plannedNumberOfTrials
+           }
+           plannedNumberOfApplications
+           numberOfReplicates
+           crops{
+             name                  
+           }
+           targets{
+             name
+           }
+           experimentalSeason
+           keywords
+           projectNumbers
+    }  
+    }
+
+
+
+TDs status 1 .......................................................
+
+	query{
+	  trialDescriptions(filter: [{
+		tptIdKey:["IA25WLDAGKVX"]
+	  }]
+	  ){
+      tptIdKey
+      dataDeadline
+      gepCode
+      gepCertification
+      guidelines      
+      keywords
+      plannedNumberOfApplications
+		  plannedNumberOfAssessments			      
+			     
+      controlFieldCode
+      plannedAssessments{
+        partRated
+        sampleSize
+        sampleSizeUnit
+        ratingDataType
+        standardEvaluationId
+        assessmentCode
+        target{
+          name
+        }
+        crop{
+          name
+        }
+
+      }
+      
+      treatments{
+        
+        applications{
+          crops{
+            cropStageCode
+          }
+          applicationCode
+          applicationTiming
+          products{
+            equipment{
+              method
+              placement
+            }
+          }
+        }
+      }
+      
+    }  
+	  }
+
+
+
+
+
+Trials (Still in progress) ................................................................
+
+  query{
+    fieldtrials(filter: [{
+      tptIdKey:["FA21DVG0334211"]
+    }]
+    ){
+          tptIdKey
+					status
+      		quality
+      		    
+      		location{
+            city
+						zip
+            country
+            latitude
+            longitude
+          }
+    
+      		tillageType
+
+      		soil{
+            texture
+            percentSand
+            percentSilt
+            percentClay
+            percentOrganicMatter
+            pH
+          }
+    
+      		irrigations{
+            date
+            amount
+            amountUnit
+            equipmentType
+          }
+      
+	        crops{
+            name
+            variety
+            planting{
+              date
+              rate
+              rateUnit            
+              seedCount
+              seedCountUnit
+              depth
+              depthUnit
+              rowSpacing
+              rowSpacingUnit
+              spacingWithinRow
+              spacingWithinRowUnit
+              rowsPerPlot
+              method
+              implement
+              soilMoisture
+              cropStage 
+              
+            }
+          }
+      
+      		targets{
+            name
+            resistanceInformation
+          }
+      
+      		treatments{
+            applications{
+              date
+              percentRelativeHumidity
+              airTemperature
+              airTemperatureUnit
+              percentCloudCover
+              windStrength
+              plantCondition
+              soilMoisture
+              soilCondition
+              
+              crops{
+                percentageCropCoverage
+								cropStage
+                percentageAtCropStage
+                minCropStage
+                percentageAtMinCropStage
+                maxCropStage
+                percentageAtMaxCropStage
+              }
+              
+              targets{
+                targetStage
+                percentageAtTargetStage
+                minTargetStage
+                percentageAtMinTargetStage
+                maxTargetStage
+                percentageAtMaxTargetStage
+                density
+                densityUnit
+                coverage
+                coverageUnit
+              }
+              
+              products{
+                equipment{
+                  method
+                  placement
+                  equipmentType
+                  propellantType
+                  diluentCarrier
+                  sprayVolumeUnit
+                  sprayVolumeUnit
+                  operatingPressure
+                  operatingPressureUnit
+                  nozzleType
+                  nozzleSize
+                  nozzleSpacing
+                  nozzleSpacingUnit
+                  bandWith
+                  bandWithUnit
+                  
+                }
+              }
+            }  
+            
+            
+            assessmentMeanValues{
+							standardEvaluationId
+              label
+              target{
+                name
+              }
+              cropStage
+              minCropStage
+              maxCropStage
+              
+              partRated                      
+              ratingClass
+              ratingType
+              unit
+              sampleSize
+              sampleSizeUnit
+              date
+              assessmentCode
+              
+            }
+          }
+      
+      
+      
+    }  
+    }
+

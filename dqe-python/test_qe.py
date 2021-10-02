@@ -62,6 +62,8 @@ r = requests.post(url = API_ENDPOINT, data=json.dumps(input_dqe), headers=header
 # pastebin_url = r.text 
 
 # print("The pastebin URL is:%s"%pastebin_url)
+print(r)
 rtn = r.text
+print(rtn)
 _score = rtn[0]['TDCompleteness']['score']
 print(_score)

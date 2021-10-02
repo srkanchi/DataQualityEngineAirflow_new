@@ -93,7 +93,6 @@ def docker_process(**kwargs):
 	ecstaskCPU = kwargs['ecstaskCPU']
 	ecstaskMemory = kwargs['ecstaskMemory']
 	subset1 = kwargs['subset1']
-	subset2 = kwargs['subset2']
 	securityGroups = kwargs['securityGroups']
 	assignPublicIp = kwargs['assignPublicIp']
 
@@ -216,8 +215,7 @@ def docker_process(**kwargs):
 		networkConfiguration={
 	        'awsvpcConfiguration': {
 	            'subnets': [
-	                subset1, 
-	                subset2  
+	                subset1
 	            ],
 	            'securityGroups': [
 	                securityGroups
@@ -255,7 +253,7 @@ default_args = {
 
 ## task id: used in airflow
 
-DIR_NAME = 'AirflowHelloWorld'
+DIR_NAME = 'DQEConsumer_airflow'
 NAME = DIR_NAME.lower()
 task_id = NAME
 
@@ -284,7 +282,7 @@ dagName = NAME
 #### Assign task defintion as DAG and Run DAG
 ###########################
 
-with DAG(dagName, default_args=default_args, schedule_interval="* * 1 * *", catchup=False) as dag:
+with DAG(dagName, default_args=default_args, schedule_interval="0 */2 * * *", catchup=False) as dag:
 
 	## bash operator: print date
 	t1 = BashOperator(
